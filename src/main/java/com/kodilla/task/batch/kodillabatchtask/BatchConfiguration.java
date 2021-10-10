@@ -74,11 +74,7 @@ public class BatchConfiguration {
         FlatFileItemWriter<UserOutput> writer = new FlatFileItemWriter<>();
         writer.setResource(new FileSystemResource("users_output.csv"));
         writer.setHeaderCallback(
-                new FlatFileHeaderCallback() {
-                    public void writeHeader(Writer writer) throws IOException {
-                        writer.write(Arrays.toString(names).replaceAll("\\[", "").replaceAll("]", ""));
-                    }
-                }
+                writer1 -> writer1.write(Arrays.toString(names).replaceAll("\\[", "").replaceAll("]", ""))
         );
         writer.setShouldDeleteIfExists(true);
         writer.setLineAggregator(aggregator);
@@ -97,7 +93,6 @@ public class BatchConfiguration {
                 .processor(processor)
                 .writer(writer)
                 .build();
-
     }
 
     //Końcowym etapem jest skonfigurowanie całego procesu, czyli joba
